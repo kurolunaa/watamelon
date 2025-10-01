@@ -1,4 +1,4 @@
-# DiscordChatController
+# watamelon Discord Bot
 
 ## Usage
 LINUX:<br>
@@ -23,3 +23,4 @@ OWNER_ID=<br>
 BOT_ID=<br>
 TEXTCHANNEL=<br>
 GUILD=<br>
+
