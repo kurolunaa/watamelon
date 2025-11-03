@@ -1,8 +1,10 @@
+import aiohttp
 import os
 import discord
-from discord import app_commands
 
+from discord import app_commands
 from dotenv import load_dotenv
+from extra.withfwmc.withfwmc import overlayImage
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -35,6 +37,7 @@ client = MyClient(intents=intents)
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.CustomActivity("世界で一番。強い。わためろん。", emoji = None))
+    # await client.tree.sync(guild=discord.Object(id=GUILD)) # use to immediately sync commands to a server, otherwise wait ~30 minutes for it to sync to all servers
     # tree.clear_commands(guild = GUILD) # use if there are dupes of server specific and global slash commands
     print('Successfully connected to Discord!')
     
@@ -89,5 +92,31 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: i
 
     output += f"Total amount obtained on this trip: **{((extravagant_salvaged_necklace * 34500) + (extravagant_salvaged_earring * 30000) + (extravagant_salvaged_bracelet * 28500) + (extravagant_salvaged_ring * 27000) + (salvaged_necklace * 13000) + (salvaged_earring * 10000 ) + (salvaged_bracelet * 9000) + (salvaged_ring * 8000)):,d} gil**"
     await interaction.response.send_message(output)
+
+# WITH FUWAMOCO
+@client.tree.context_menu(name="with FUWAMOCO-ify")
+async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
+    await interaction.response.defer(thinking=True)
+
+    if not message.attachments:
+        await interaction.followup.send("No image found.")
+        return
+
+    attachment = message.attachments[0]
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(attachment.url) as resp:
+            img_bytes = await resp.read()
+
+    os.makedirs("bin/extra/withfwmc/temp", exist_ok=True)
+    base_path = "bin/extra/withfwmc/temp/base.png"
+    overlay_path = "bin/extra/withfwmc/temp/withfwmc.png"
+
+    with open(base_path, "wb") as f:
+        f.write(img_bytes)
+
+    result_path = overlayImage(base_path, overlay_path, scale=0.3)
+
+    await interaction.followup.send(file=discord.File(result_path))
 
 client.run(TOKEN)

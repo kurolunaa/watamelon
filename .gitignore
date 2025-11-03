@@ -7,3 +7,7 @@ files
 unused_python_files
 requirements_original.txt
 TODO
+test
+test_bot.py
+start_test.sh
+temp
