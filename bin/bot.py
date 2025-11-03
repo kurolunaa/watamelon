@@ -4,6 +4,7 @@ import discord
 
 from discord import app_commands
 from dotenv import load_dotenv
+# depending on the device, there may be some issues with this import. removing the extra withfwmc from here will fix it.
 from extra.withfwmc.withfwmc import overlayImage
 
 load_dotenv()
