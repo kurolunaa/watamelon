@@ -31,9 +31,11 @@ class MyClient(discord.Client):
 
     async def setup_hook(self):
         # This copies the global commands over to your guild.
-        self.tree.copy_global_to(guild=GUILD)
-        await self.tree.sync(guild=GUILD)
+        # self.tree.copy_global_to(guild=GUILD)
+        # await self.tree.sync(guild=GUILD)
 
+        # this syncs to all guilds, but takes time
+        await self.tree.sync()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -45,10 +47,9 @@ async def on_ready():
     await client.change_presence(activity=discord.CustomActivity("世界で一番。強い。わためろん。", emoji = None))
     # await client.tree.sync(guild=discord.Object(id=GUILD)) # use to immediately sync commands to a server, otherwise wait ~30 minutes for it to sync to all servers
     # tree.clear_commands(guild = GUILD) # use if there are dupes of server specific and global slash commands
-    print('Successfully connected to Discord!')
-    
     # channel = client.get_channel(TEXTCHANNEL)
     # await channel.send('Successfully connected to Discord!')
+    print('Successfully connected to Discord!')
 
     
 @client.event
@@ -84,7 +85,7 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
     second = 'Specify how many seconds.'
 )
 async def time(interaction: discord.Interaction, week: Optional[int], day: Optional[int], hour: Optional[int], minute: Optional[int], second: Optional[int]):
-    """Returns a POSINX timestamp to help unify a specific time. Basically, what time/day it will be given an input."""
+    """Displays what time/day it is with a + or - offset based on the given input."""
     await interaction.response.send_message(convertTime(week, day, hour, minute, second))
 
 # WITH FUWAMOCO
