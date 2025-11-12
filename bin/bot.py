@@ -75,18 +75,17 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
     await interaction.response.send_message(calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
 
 # UNIX DATE TIME CONVERSION
-@client.tree.command(name = "convert_time", description = "Converts specified time to a Unix timestamp")
+@client.tree.command(name = "time", description = "Displays an offset of the current time/day given inputs")
 @app_commands.describe(
-    year = 'Specify the year (1 - 9999), leave blank for current year.', 
-    month = 'Specify the month (1 - 12), leave blank for current month.',
-    day = 'Specify the day (1 - 31), leave blank for current day.',
-    hour = 'Specify hour (0 - 23), leave blank for current hour.',
-    minute = 'Specify minutes (0 - 59), leave blank for current minutes.',
-    second = 'Specify seconds (0 - 59), leave blank for current seconds.'
+    week = 'Specify how many weeks.',
+    day = 'Specify how many days.',
+    hour = 'Specify how many hours.',
+    minute = 'Specify how many minutes.',
+    second = 'Specify how many seconds.'
 )
-async def convert_time(interaction: discord.Interaction, year: Optional[int], month: Optional[int], day: Optional[int], hour: Optional[int], minute: Optional[int], second: Optional[int]):
-    """Converts a specified time to Unix timestamp, leave blank for current time."""
-    await interaction.response.send_message(convertTime(year, month, day, hour, minute, second))
+async def time(interaction: discord.Interaction, week: Optional[int], day: Optional[int], hour: Optional[int], minute: Optional[int], second: Optional[int]):
+    """Returns a POSINX timestamp to help unify a specific time. Basically, what time/day it will be given an input."""
+    await interaction.response.send_message(convertTime(week, day, hour, minute, second))
 
 # WITH FUWAMOCO
 @client.tree.context_menu(name="with FUWAMOCO-ify")
