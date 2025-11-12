@@ -75,7 +75,7 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
     await interaction.response.send_message(calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
 
 # UNIX DATE TIME CONVERSION
-@client.tree.command(name = "convert_time", description = "Converts specified time to a Unix timestamp", guild=discord.Object(id=573202271643500562))
+@client.tree.command(name = "convert_time", description = "Converts specified time to a Unix timestamp")
 @app_commands.describe(
     year = 'Specify the year (1 - 9999), leave blank for current year.', 
     month = 'Specify the month (1 - 12), leave blank for current month.',
@@ -89,7 +89,7 @@ async def convert_time(interaction: discord.Interaction, year: Optional[int], mo
     await interaction.response.send_message(convertTime(year, month, day, hour, minute, second))
 
 # WITH FUWAMOCO
-@client.tree.context_menu(name="with FUWAMOCO-ify", guild=discord.Object(id=573202271643500562))
+@client.tree.context_menu(name="with FUWAMOCO-ify")
 async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
     await interaction.response.defer(thinking=True)
 
