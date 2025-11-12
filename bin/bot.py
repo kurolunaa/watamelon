@@ -2,10 +2,15 @@ import aiohttp
 import os
 import discord
 
+from typing import Optional
 from discord import app_commands
 from dotenv import load_dotenv
-# depending on the device, there may be some issues with this import. removing the extra withfwmc from here will fix it.
+
+# custom functions
 from extra.withfwmc.withfwmc import overlayImage
+from extra.date.date import convertTime
+from extra.calculate_goods.calculate_goods import calculate_goods
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -53,6 +58,7 @@ async def on_message(message):
         print("i just checked my own message, -1 cpu cycle gg")
         return
 
+# CALCULATE SUBMARINE GOODS
 @client.tree.command(name = "calculate_goods", description = "Calculates the amount the submarines made in gil")
 @app_commands.describe(
     extravagant_salvaged_necklace = '# of Extravagant Salvaged Necklaces (34,500 gil/unit)',
@@ -64,38 +70,26 @@ async def on_message(message):
     salvaged_bracelet = '# of Salvaged Bracelets (9,000 gil/unit)',
     salvaged_ring = '# of Salvaged Rings (8,000 gil/unit)'
 )
-async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: int, extravagant_salvaged_earring: int, extravagant_salvaged_bracelet: int, extravagant_salvaged_ring: int, salvaged_necklace: int, salvaged_earring: int, salvaged_bracelet: int, salvaged_ring: int):
+async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: Optional[int] = 0, extravagant_salvaged_earring: Optional[int] = 0, extravagant_salvaged_bracelet: Optional[int] = 0, extravagant_salvaged_ring: Optional[int] = 0, salvaged_necklace: Optional[int] = 0, salvaged_earring: Optional[int] = 0, salvaged_bracelet: Optional[int] = 0, salvaged_ring: Optional[int] = 0):
     """Calculates the amount of gil given the amount of extravagant and non-extravagant salvaged goods."""
+    await interaction.response.send_message(calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
 
-    output = ""
-
-    if extravagant_salvaged_necklace > 0:
-        output += f"{extravagant_salvaged_necklace}x Extravagant Salvaged Necklaces = {extravagant_salvaged_necklace * 34500:,d} gil\n"
-    if extravagant_salvaged_earring > 0:
-        output += f"{extravagant_salvaged_earring}x Extravagant Salvaged Earrings = {extravagant_salvaged_earring * 30000:,d} gil\n"
-    if extravagant_salvaged_bracelet > 0:
-        output += f"{extravagant_salvaged_bracelet}x Extravagant Salvaged Bracelets = {extravagant_salvaged_bracelet * 28500:,d} gil\n"
-    if extravagant_salvaged_ring > 0:
-        output += f"{extravagant_salvaged_ring}x Extravagant Salvaged Rings = {extravagant_salvaged_ring * 27000:,d} gil\n"
-    if salvaged_necklace > 0:
-        output += f"{salvaged_necklace}x Salvaged Necklaces = {salvaged_necklace * 13000:,d} gil\n"
-    if salvaged_earring > 0:
-        output += f"{salvaged_earring}x Salvaged Earrings = {salvaged_earring * 10000:,d} gil\n"
-    if salvaged_bracelet > 0:
-        output += f"{salvaged_bracelet}x Salvaged Bracelets = {salvaged_bracelet * 9000:,d} gil\n"
-    if salvaged_ring > 0:
-        output += f"{salvaged_ring}x Salvaged Rings = {salvaged_ring * 8000:,d} gil\n"
-
-    if output == "":
-        output = "subs made no money :("
-        await interaction.response.send_message(output)
-        return
-
-    output += f"Total amount obtained on this trip: **{((extravagant_salvaged_necklace * 34500) + (extravagant_salvaged_earring * 30000) + (extravagant_salvaged_bracelet * 28500) + (extravagant_salvaged_ring * 27000) + (salvaged_necklace * 13000) + (salvaged_earring * 10000 ) + (salvaged_bracelet * 9000) + (salvaged_ring * 8000)):,d} gil**"
-    await interaction.response.send_message(output)
+# UNIX DATE TIME CONVERSION
+@client.tree.command(name = "convert_time", description = "Converts specified time to a Unix timestamp", guild=discord.Object(id=573202271643500562))
+@app_commands.describe(
+    year = 'Specify the year (1 - 9999), leave blank for current year.', 
+    month = 'Specify the month (1 - 12), leave blank for current month.',
+    day = 'Specify the day (1 - 31), leave blank for current day.',
+    hour = 'Specify hour (0 - 23), leave blank for current hour.',
+    minute = 'Specify minutes (0 - 59), leave blank for current minutes.',
+    second = 'Specify seconds (0 - 59), leave blank for current seconds.'
+)
+async def convert_time(interaction: discord.Interaction, year: Optional[int], month: Optional[int], day: Optional[int], hour: Optional[int], minute: Optional[int], second: Optional[int]):
+    """Converts a specified time to Unix timestamp, leave blank for current time."""
+    await interaction.response.send_message(convertTime(year, month, day, hour, minute, second))
 
 # WITH FUWAMOCO
-@client.tree.context_menu(name="with FUWAMOCO-ify")
+@client.tree.context_menu(name="with FUWAMOCO-ify", guild=discord.Object(id=573202271643500562))
 async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
     await interaction.response.defer(thinking=True)
 
