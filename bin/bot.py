@@ -13,14 +13,13 @@ from extra.calculate_goods.calculate_goods import calculate_goods
 
 
 load_dotenv()
+# these need to be casted to the appropriate datatypes because os.getenv() returns a string
 TOKEN = os.getenv('DISCORD_TOKEN')
 OWNER_ID = os.getenv('OWNER_ID')
 BOT_ID = os.getenv('BOT_ID')
-TEXTCHANNEL = int(os.getenv('TEXTCHANNEL')) # Cast to an int because os.getenv returns a string
+TEXTCHANNEL = int(os.getenv('TEXTCHANNEL'))
 GUILD = discord.Object(id = int(os.getenv('GUILD')))
 
-# this makes it so i don't have to manually specify a guild for every tree command
-# copied from discord.py repo
 class MyClient(discord.Client):
     # Suppress error on the User attribute being None since it fills up later
     user: discord.ClientUser
@@ -33,8 +32,9 @@ class MyClient(discord.Client):
         # This copies the global commands over to your guild.
         # self.tree.copy_global_to(guild=GUILD)
         # await self.tree.sync(guild=GUILD)
-
+        # 
         # this syncs to all guilds, but takes time
+        self.tree.clear_commands(guild = None) # use if there are dupes of server specific and global slash commands
         await self.tree.sync()
 
 intents = discord.Intents.default()
@@ -46,7 +46,7 @@ client = MyClient(intents=intents)
 async def on_ready():
     await client.change_presence(activity=discord.CustomActivity("世界で一番。強い。わためろん。", emoji = None))
     # await client.tree.sync(guild=discord.Object(id=GUILD)) # use to immediately sync commands to a server, otherwise wait ~30 minutes for it to sync to all servers
-    # tree.clear_commands(guild = GUILD) # use if there are dupes of server specific and global slash commands
+    
     # channel = client.get_channel(TEXTCHANNEL)
     # await channel.send('Successfully connected to Discord!')
     print('Successfully connected to Discord!')
