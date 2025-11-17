@@ -29,13 +29,17 @@ class MyClient(discord.Client):
         self.tree = app_commands.CommandTree(self)
 
     async def setup_hook(self):
-        # This copies the global commands over to your guild.
-        # self.tree.copy_global_to(guild=GUILD)
-        # await self.tree.sync(guild=GUILD)
-        # 
+        # This copies the global commands over to your guild, could be modified to fit multiple guilds via an array
+        # if there are duplicate commands, uncomment the command below and run the bot, then shut the bot down and recomment it
+        # self.tree.clear_commands(guild=None)
+        self.tree.copy_global_to(guild=GUILD)
+        await self.tree.sync(guild=GUILD)
+        
+
+
         # this syncs to all guilds, but takes time
-        self.tree.clear_commands(guild = None) # use if there are dupes of server specific and global slash commands
-        await self.tree.sync()
+        # self.tree.clear_commands(guild = None) # use if there are dupes of server specific and global slash commands
+        # await self.tree.sync()
 
 intents = discord.Intents.default()
 intents.message_content = True
