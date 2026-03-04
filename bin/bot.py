@@ -79,18 +79,6 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
     """Calculates the amount of gil given the amount of extravagant and non-extravagant salvaged goods."""
     await interaction.response.send_message(calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
 
-# UNIX DATE TIME CONVERSION
-@client.tree.command(name = "time", description = "Displays an offset of the current time/day given inputs")
-@app_commands.describe(
-    week = 'Specify how many weeks.',
-    day = 'Specify how many days.',
-    hour = 'Specify how many hours.',
-    minute = 'Specify how many minutes.',
-    second = 'Specify how many seconds.'
-)
-async def time(interaction: discord.Interaction, week: Optional[int], day: Optional[int], hour: Optional[int], minute: Optional[int], second: Optional[int]):
-    """Displays what time/day it is with a + or - offset based on the given input."""
-    await interaction.response.send_message(convertTime(week, day, hour, minute, second))
 
 # WITH FUWAMOCO
 @client.tree.context_menu(name="with FUWAMOCO-ify")
