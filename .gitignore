@@ -11,3 +11,4 @@ test
 test_bot.py
 start_test.sh
 temp
+bin/extra/vischart/json/*

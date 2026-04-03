@@ -7,8 +7,7 @@ from discord import app_commands
 from dotenv import load_dotenv
 
 # custom functions
-from extra.withfwmc.withfwmc import overlayImage
-from extra.date.date import convertTime
+from extra.overlayImage.overlayImage import overlayImage
 from extra.calculate_goods.calculate_goods import calculate_goods
 
 
@@ -81,7 +80,7 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
 
 
 # WITH FUWAMOCO
-@client.tree.context_menu(name="with FUWAMOCO-ify")
+@client.tree.context_menu(name="Overlay Image")
 async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
     await interaction.response.defer(thinking=True)
 
@@ -95,9 +94,11 @@ async def apply_overlay(interaction: discord.Interaction, message: discord.Messa
         async with session.get(attachment.url) as resp:
             img_bytes = await resp.read()
 
-    os.makedirs("bin/extra/withfwmc/temp", exist_ok=True)
-    base_path = "bin/extra/withfwmc/temp/base.png"
-    overlay_path = "bin/extra/withfwmc/temp/withfwmc.png"
+    os.makedirs("bin/extra/overlayImage/temp", exist_ok=True)
+    base_path = "bin/extra/overlayImage/temp/base.png"
+    
+    # here you would change withfwmc.png with whatever image you want, this was a withfwmc gag
+    overlay_path = "bin/extra/overlayImage/temp/withfwmc.png"
 
     with open(base_path, "wb") as f:
         f.write(img_bytes)

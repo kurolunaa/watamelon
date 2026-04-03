@@ -2,3 +2,5 @@ python-dotenv
 discord.py
 pillow
 aiohttp
+matplotlib
+numpy

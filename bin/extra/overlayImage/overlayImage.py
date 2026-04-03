@@ -19,6 +19,6 @@ def overlayImage(base, overlay, scale):
 
     base.paste(overlay, (x, y), overlay)
 
-    base.save("bin/extra/withfwmc/temp/result.png", format="PNG")
+    base.save("bin/extra/overlayImage/temp/result.png", format="PNG")
 
-    return "bin/extra/withfwmc/temp/result.png"
+    return "bin/extra/overlayImage/temp/result.png"

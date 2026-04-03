@@ -1,4 +1,9 @@
+# the purpose of this is to just give me number
 def calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring):
+    return (extravagant_salvaged_necklace * 34500) + (extravagant_salvaged_earring * 30000) + (extravagant_salvaged_bracelet * 28500) + (extravagant_salvaged_ring * 27000) + (salvaged_necklace * 13000) + (salvaged_earring * 10000) + (salvaged_bracelet * 9000) + (salvaged_ring * 8000) 
+
+# the purpose of this is to send as a string, i'm too lazy to rewrite this and it serves its purpose so idgaf
+def formatGoods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring):
     output = ""
 
     if (extravagant_salvaged_necklace > 0):
