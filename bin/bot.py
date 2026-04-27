@@ -7,8 +7,8 @@ from discord import app_commands
 from dotenv import load_dotenv
 
 # custom functions
-from extra.overlayImage.overlayImage import overlayImage
-from extra.calculate_goods.calculate_goods import calculate_goods, formatGoods
+# from extra.overlayImage.overlayImage import overlayImage
+from extra.calculate_goods.calculate_goods import formatGoods
 
 
 load_dotenv()
@@ -80,31 +80,31 @@ async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: O
 
 
 # WITH FUWAMOCO
-@client.tree.context_menu(name="Overlay Image")
-async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
-    await interaction.response.defer(thinking=True)
+# @client.tree.context_menu(name="Overlay Image")
+# async def apply_overlay(interaction: discord.Interaction, message: discord.Message):
+#     await interaction.response.defer(thinking=True)
 
-    if not message.attachments:
-        await interaction.followup.send("No image found.")
-        return
+#     if not message.attachments:
+#         await interaction.followup.send("No image found.")
+#         return
 
-    attachment = message.attachments[0]
+#     attachment = message.attachments[0]
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(attachment.url) as resp:
-            img_bytes = await resp.read()
+#     async with aiohttp.ClientSession() as session:
+#         async with session.get(attachment.url) as resp:
+#             img_bytes = await resp.read()
 
-    os.makedirs("bin/extra/overlayImage/temp", exist_ok=True)
-    base_path = "bin/extra/overlayImage/temp/base.png"
+#     os.makedirs("bin/extra/overlayImage/temp", exist_ok=True)
+#     base_path = "bin/extra/overlayImage/temp/base.png"
     
-    # here you would change withfwmc.png with whatever image you want, this was a withfwmc gag
-    overlay_path = "bin/extra/overlayImage/temp/withfwmc.png"
+#     # here you would change withfwmc.png with whatever image you want, this was a withfwmc gag
+#     overlay_path = "bin/extra/overlayImage/temp/withfwmc.png"
 
-    with open(base_path, "wb") as f:
-        f.write(img_bytes)
+#     with open(base_path, "wb") as f:
+#         f.write(img_bytes)
 
-    result_path = overlayImage(base_path, overlay_path, scale=0.3)
+#     result_path = overlayImage(base_path, overlay_path, scale=0.3)
 
-    await interaction.followup.send(file=discord.File(result_path))
+#     await interaction.followup.send(file=discord.File(result_path))
 
 client.run(TOKEN)
