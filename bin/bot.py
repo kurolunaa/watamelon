@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # custom functions
 from extra.overlayImage.overlayImage import overlayImage
-from extra.calculate_goods.calculate_goods import calculate_goods
+from extra.calculate_goods.calculate_goods import calculate_goods, formatGoods
 
 
 load_dotenv()
@@ -76,7 +76,7 @@ async def on_message(message):
 )
 async def add(interaction: discord.Interaction, extravagant_salvaged_necklace: Optional[int] = 0, extravagant_salvaged_earring: Optional[int] = 0, extravagant_salvaged_bracelet: Optional[int] = 0, extravagant_salvaged_ring: Optional[int] = 0, salvaged_necklace: Optional[int] = 0, salvaged_earring: Optional[int] = 0, salvaged_bracelet: Optional[int] = 0, salvaged_ring: Optional[int] = 0):
     """Calculates the amount of gil given the amount of extravagant and non-extravagant salvaged goods."""
-    await interaction.response.send_message(calculate_goods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
+    await interaction.response.send_message(formatGoods(extravagant_salvaged_necklace, extravagant_salvaged_earring, extravagant_salvaged_bracelet, extravagant_salvaged_ring, salvaged_necklace, salvaged_earring, salvaged_bracelet, salvaged_ring))
 
 
 # WITH FUWAMOCO
